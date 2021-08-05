@@ -16,7 +16,7 @@ function App() {
     console.log("start ", startTime);
     console.log("end ", endTime);
     const data = {StartTime : startTime , EndTime : endTime}
-     axios.post('https://vibtree2.herokuapp.com/cdr', data)
+     axios.post('https://vibtree2.herokuapp.com/cdr2', data)
      .then(response =>{ 
        setResponse(response.data.calls);
        setAvailable(1)
