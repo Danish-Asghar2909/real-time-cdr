@@ -22,7 +22,7 @@ export default function BasicTable() {
 
 
  const [callBack, setCallBack] = useState({});
- const [newRow , setRow] = useState([]);
+ const [newRow , setRow] = useState([{"CallSid":"", "CallStatus":"", "From":"", "To":""}]);
  
 function arraySearch(arr,val) {
   for (var i=0; i<arr.length; i++)
@@ -31,31 +31,31 @@ function arraySearch(arr,val) {
   return false;
 }
 
+//already use this function in useEffect hook
+//  const turnOnSocket = () =>{
+//        let arr1 =[...newRow]
+//         // io.connect("https://vibtree2.herokuapp.com").on('danish', name=>{
+//         socket.on('danish2', name=>{
+//             // newRow.push(name)
+//             // setRow(name)
+//             console.log("name",name)
+//             const arr = arraySearch(arr1 , name.CallSid )
+//             // console.log("arr ", arr);
+//             if(arr!=false){
+//               // console.log("arr 2 ", arr1[arr])
+//               arr1[arr]=name
 
- const turnOnSocket = () =>{
-       let arr1 =[...newRow]
-        // io.connect("https://vibtree2.herokuapp.com").on('danish', name=>{
-        socket.on('danish2', name=>{
-            // newRow.push(name)
-            // setRow(name)
-            console.log("name",name)
-            const arr = arraySearch(arr1 , name.CallSid )
-            // console.log("arr ", arr);
-            if(arr!=false){
-              // console.log("arr 2 ", arr1[arr])
-              arr1[arr]=name
-
-            }else{
-              arr1.push(name)
+//             }else{
+//               arr1.push(name)
               
-            }
-            // setCallBack(name)
-            setRow(arr1)
-            return arr1
-        })
-        // console.log("aar1 ", arr1)
-        // setRow(arr1)
-}
+//             }
+//             // setCallBack(name)
+//             setRow(arr1)
+//             return arr1
+//         })
+//         // console.log("aar1 ", arr1)
+//         // setRow(arr1)
+// }
 
 
 function createData(name, calories, fat, carbs, protein) {
@@ -117,22 +117,38 @@ React.useEffect(() => {
   //  turnOnSocket()
    let arr1 =[...newRow]
    // io.connect("https://vibtree2.herokuapp.com").on('danish', name=>{
-   socket.on('danish2', name=>{
-       // newRow.push(name)
-       // setRow(name)
-      //  console.log("name",name)
-       const arr = arraySearch(arr1 , name.CallSid )
-      //  console.log("arr ", arr);
-       if(arr!=false){
-        //  console.log("arr 2 ", arr1[arr])
-         arr1[arr]=name
-       }else{
-         arr1.push(name)    
-       }
-       // setCallBack(name)
-       setRow(arr1)
-      //  return arr1
+
+   socket.emit('join_cdr', "TLDHXNQCCENIQGDIU3AD");
+   socket.on("account_data", (name)=>{
+    //  console.log("name ", name)
+    const arr = arraySearch(arr1 , name.CallSid )
+    // console.log("arr ", arr)
+     if(arr!=false){
+      //  console.log("arr1[arr] ", arr1)
+       arr1[arr]=name
+     }else{
+      //  console.log("name in else ", name)
+       arr1.push(name)    
+     }
+     setRow(arr1)
    })
+
+  //  socket.on('danish2', name=>{
+  //      // newRow.push(name)
+  //      // setRow(name)
+  //     //  console.log("name",name)
+  //      const arr = arraySearch(arr1 , name.CallSid )
+  //     //  console.log("arr ", arr);
+  //      if(arr!=false){
+  //       //  console.log("arr 2 ", arr1[arr])
+  //        arr1[arr]=name
+  //      }else{
+  //        arr1.push(name)    
+  //      }
+  //      // setCallBack(name)
+  //      setRow(arr1)
+  //     //  return arr1
+  //  })
   //  console.log("aar1 ", arr1)
 },[filteredArr])
 
